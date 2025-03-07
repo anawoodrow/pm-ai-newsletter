@@ -5,55 +5,20 @@ Initializes the database connection and schema for the app.
 */
 
 import { drizzle } from "drizzle-orm/postgres-js"
-import { migrate } from "drizzle-orm/postgres-js/migrator"
 import postgres from "postgres"
-import { articlesTable, sourcesTable } from "@/db/schema"
+import { articles, sources } from "./schema"
 
 if (!process.env.DATABASE_URL) {
   throw new Error("DATABASE_URL is not set")
 }
 
-// For migrations
-const migrationClient = postgres(process.env.DATABASE_URL, {
-  max: 1,
-  ssl: {
-    rejectUnauthorized: false
-  },
-  connection: {
-    application_name: "pm-ai-newsletter-migrator"
-  }
-})
+// Database client for queries
+const queryClient = postgres(process.env.DATABASE_URL!)
 
-// For queries
-const queryClient = postgres(process.env.DATABASE_URL, {
-  max: 1,
-  ssl: {
-    rejectUnauthorized: false
-  },
-  idle_timeout: 15,
-  connect_timeout: 15,
-  max_lifetime: 60 * 30,
-  connection: {
-    application_name: "pm-ai-newsletter"
-  },
-  prepare: true
-})
-
-// Configure Drizzle with both schemas
+// Create db instance with query builder
 export const db = drizzle(queryClient, {
   schema: {
-    articles: articlesTable,
-    sources: sourcesTable
+    articles,
+    sources
   }
 })
-
-// Run migrations on startup
-migrate(drizzle(migrationClient), { migrationsFolder: "./db/migrations" })
-  .then(() => {
-    console.log("Migrations complete")
-    migrationClient.end()
-  })
-  .catch((err) => {
-    console.error("Migration failed", err)
-    migrationClient.end()
-  })

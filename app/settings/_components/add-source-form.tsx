@@ -7,35 +7,27 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Icons } from "@/components/icons"
 
-const AVAILABLE_ICONS = [
-  "newspaper",
-  "book",
-  "brain",
-  "sword",
-  "zap",
-  "star",
-  "heart",
-  "coffee",
-  "compass",
-  "lightbulb"
-] as const
-
-const AVAILABLE_COLORS = [
-  'blue',   // For backgrounds like bg-blue-100 dark:bg-blue-900
-  'purple', // bg-purple-100 dark:bg-purple-900
-  'green',  // bg-green-100 dark:bg-green-900
-  'orange', // bg-orange-100 dark:bg-orange-900
-  'pink',   // bg-pink-100 dark:bg-pink-900
-  'yellow', // bg-yellow-100 dark:bg-yellow-900
-  'teal',   // bg-teal-100 dark:bg-teal-900
-  'red',    // bg-red-100 dark:bg-red-900
-  'indigo'  // bg-indigo-100 dark:bg-indigo-900
-] as const
-
 function generateSlug(name: string) {
   return name.toLowerCase()
     .replace(/[']/g, '') // Remove apostrophes first
     .replace(/[^a-z0-9]/g, '') // Then remove all other special characters
+}
+
+function generateUniqueColor() {
+  // Use golden ratio for even distribution
+  const goldenRatio = 0.618033988749895
+  
+  // Generate a random starting hue
+  let hue = Math.random()
+  
+  // Use the golden ratio to generate the next hue
+  hue += goldenRatio
+  hue %= 1
+  
+  // Convert to degrees and create HSL color
+  const hueInDegrees = Math.floor(hue * 360)
+  // High saturation (80%) and lightness (50%) for vibrant but readable colors
+  return `hsl(${hueInDegrees}, 80%, 50%)`
 }
 
 export default function AddSourceForm() {
@@ -49,8 +41,7 @@ export default function AddSourceForm() {
     setIsLoading(true)
 
     try {
-      const randomIcon = AVAILABLE_ICONS[Math.floor(Math.random() * AVAILABLE_ICONS.length)]
-      const randomColor = AVAILABLE_COLORS[Math.floor(Math.random() * AVAILABLE_COLORS.length)]
+      const color = generateUniqueColor()
       
       const response = await fetch("/api/sources", {
         method: "POST",
@@ -60,8 +51,7 @@ export default function AddSourceForm() {
         body: JSON.stringify({
           name,
           url,
-          icon: randomIcon,
-          color: randomColor,
+          color,
           slug: generateSlug(name)
         }),
       })
@@ -94,11 +84,11 @@ export default function AddSourceForm() {
           />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="url">RSS Feed URL</Label>
+          <Label htmlFor="url">URL</Label>
           <Input
             id="url"
             type="url"
-            placeholder="https://example.com/feed"
+            placeholder="https://example.com"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required

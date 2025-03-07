@@ -1,11 +1,12 @@
 import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core"
+import { sourcesTable } from "./sources-schema"
 
 export const articlesTable = pgTable("articles", {
   id: uuid("id").defaultRandom().primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
   url: text("url").notNull(),
-  source: text("source").notNull(),
+  source: text("source").references(() => sourcesTable.slug, { onDelete: "cascade" }).notNull(),
   imageUrl: text("image_url"),
   publishedAt: timestamp("published_at").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

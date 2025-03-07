@@ -5,9 +5,9 @@ import { sourcesTable } from "@/db/schema"
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, url, slug, icon } = body
+    const { name, url, slug, color } = body
 
-    if (!name || !url || !slug || !icon) {
+    if (!name || !url || !slug || !color) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       name,
       url,
       slug,
-      icon
+      color
     }).returning()
 
     return NextResponse.json(source[0])
