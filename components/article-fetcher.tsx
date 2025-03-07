@@ -1,34 +1,40 @@
 "use server"
 
 import { db } from "@/db/db"
-import { articlesTable } from "@/db/schema"
 import { desc, eq } from "drizzle-orm"
+import { articlesTable, sourcesTable } from "@/db/schema"
 import ArticleList from "@/components/article-list"
 
 interface ArticleFetcherProps {
   source?: string
 }
 
-export async function ArticleFetcher({ source }: ArticleFetcherProps) {
-  let query = db.query.articles.findMany({
-    orderBy: [desc(articlesTable.publishedAt)],
-    limit: 12
+export default async function ArticleFetcher({ source }: ArticleFetcherProps) {
+  const baseQuery = db.select({
+    id: articlesTable.id,
+    title: articlesTable.title,
+    description: articlesTable.description,
+    url: articlesTable.url,
+    source: articlesTable.source,
+    publishedAt: articlesTable.publishedAt,
+    imageUrl: articlesTable.imageUrl,
+    createdAt: articlesTable.createdAt,
+    updatedAt: articlesTable.updatedAt,
+    sourceColor: sourcesTable.color
   })
+  .from(articlesTable)
+  .leftJoin(sourcesTable, eq(articlesTable.source, sourcesTable.slug))
+  .orderBy(desc(articlesTable.publishedAt))
+  .limit(12)
 
-  if (source) {
-    query = db.query.articles.findMany({
-      where: eq(articlesTable.source, source),
-      orderBy: [desc(articlesTable.publishedAt)],
-      limit: 12
-    })
-  }
-
-  const articles = await query
+  const articles = source 
+    ? await baseQuery.where(eq(articlesTable.source, source))
+    : await baseQuery
 
   if (!articles.length) {
     return (
-      <div className="text-center py-12">
-        <p className="text-muted-foreground">No articles found. Click refresh to fetch new articles.</p>
+      <div className="text-center text-muted-foreground">
+        No articles yet. Check back later or refresh the page.
       </div>
     )
   }

@@ -15,6 +15,13 @@
       "when": 1741029272199,
       "tag": "0001_stiff_ares",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741340079695,
+      "tag": "0002_fixed_nighthawk",
+      "breakpoints": true
     }
   ]
 }

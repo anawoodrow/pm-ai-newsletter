@@ -6,7 +6,6 @@ The root server layout for the app.
 
 import { Toaster } from "@/components/ui/toaster"
 import { Providers } from "@/components/utilities/providers"
-import { TailwindIndicator } from "@/components/utilities/tailwind-indicator"
 import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
@@ -39,8 +38,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-
-          <TailwindIndicator />
           <Toaster />
         </Providers>
       </body>

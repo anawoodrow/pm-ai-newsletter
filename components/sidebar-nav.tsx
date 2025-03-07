@@ -1,94 +1,77 @@
 "use client"
 
-import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { usePathname, useSearchParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { 
-  Newspaper, 
-  BookOpen, 
-  Brain, 
-  Sword,
-  LayoutGrid,
-  Settings,
-  Zap,
-  Star,
-  Heart,
-  Coffee,
-  Compass,
-  Lightbulb,
-  LucideIcon
-} from "lucide-react"
+import { cn } from "@/lib/utils"
 import { SelectSource } from "@/db/schema"
+import { Settings } from "lucide-react"
 
-const iconMap: Record<string, LucideIcon> = {
-  newspaper: Newspaper,
-  book: BookOpen,
-  brain: Brain,
-  sword: Sword,
-  grid: LayoutGrid,
-  zap: Zap,
-  star: Star,
-  heart: Heart,
-  coffee: Coffee,
-  compass: Compass,
-  lightbulb: Lightbulb
-}
-
-interface SidebarNavProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SidebarNavProps {
   sources: SelectSource[]
+  currentSource?: string
 }
 
-export function SidebarNav({ className, sources, ...props }: SidebarNavProps) {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const currentSource = searchParams.get("source")
-
-  const allSourcesItem = {
-    name: "All Sources",
-    icon: "grid",
-    href: "/",
-    slug: undefined
-  }
-
-  const items = [
-    allSourcesItem,
-    ...sources.map(source => ({
-      name: source.name,
-      icon: source.icon,
-      href: `/?source=${source.slug}`,
-      slug: source.slug
-    }))
-  ]
-
+export default function SidebarNav({ sources, currentSource }: SidebarNavProps) {
   return (
-    <div className={cn("w-64 border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", className)} {...props}>
-      <div className="flex h-full flex-col">
-        <div className="p-6">
-          <h2 className="text-lg font-semibold">Sources</h2>
-          <ScrollArea className="h-[calc(100vh-8rem)]">
-            <div className="space-y-1 mt-4">
-              {items.map((item) => {
-                const Icon = iconMap[item.icon] || LayoutGrid
-                const isSelected = (!currentSource && !item.slug) || currentSource === item.slug
-                return (
-                  <Button
-                    key={item.slug || 'all'}
-                    variant={isSelected ? "secondary" : "ghost"}
-                    className="w-full justify-start"
-                    asChild
-                  >
-                    <Link href={item.href}>
-                      <Icon className="mr-2 h-4 w-4" />
-                      {item.name}
-                    </Link>
-                  </Button>
-                )
-              })}
-            </div>
-          </ScrollArea>
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-hidden">
+        <h2 className="font-semibold mb-4">Sources</h2>
+
+        <Link
+          href="/"
+          className={cn(
+            "flex items-center w-full px-2 py-1.5 text-sm transition-colors rounded-lg hover:bg-muted",
+            !currentSource && "bg-muted"
+          )}
+        >
+          All Sources
+        </Link>
+
+        <div className="ml-2 pl-2 mt-1 flex flex-col gap-1 border-l">
+          {sources.map((source) => {
+            const isActive = currentSource === source.slug
+            const colorClasses = {
+              blue: "bg-blue-500",
+              purple: "bg-purple-500",
+              green: "bg-green-500",
+              orange: "bg-orange-500",
+              pink: "bg-pink-500",
+              yellow: "bg-yellow-500",
+              teal: "bg-teal-500",
+              red: "bg-red-500",
+              indigo: "bg-indigo-500"
+            }
+
+            return (
+              <div key={source.id} className="w-full">
+                <Link
+                  href={`/?source=${source.slug}`}
+                  className={cn(
+                    "flex items-center gap-2 w-full px-2 py-1.5 text-sm transition-colors rounded-lg hover:bg-muted",
+                    isActive && "bg-muted"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "h-2 w-2 rounded-full shrink-0",
+                      colorClasses[source.color as keyof typeof colorClasses]
+                    )}
+                  />
+                  {source.name}
+                </Link>
+              </div>
+            )
+          })}
         </div>
+      </div>
+
+      <div className="mt-auto pt-4 border-t">
+        <Link
+          href="/settings"
+          className="flex items-center gap-2 px-2 py-1.5 text-sm transition-colors rounded-lg hover:bg-muted"
+        >
+          <Settings className="h-4 w-4" />
+          Manage Sources
+        </Link>
       </div>
     </div>
   )

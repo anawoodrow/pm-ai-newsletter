@@ -6,6 +6,7 @@ export const sourcesTable = pgTable("sources", {
   slug: text("slug").notNull().unique(),
   url: text("url").notNull(),
   icon: text("icon").notNull(),
+  color: text("color"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()

@@ -2,14 +2,17 @@
 
 A modern web application that aggregates articles from various Product Management and AI newsletters, providing a centralized hub for staying up-to-date with the latest insights in the field.
 
+![PM & AI Newsletter Aggregator](screenshot.png)
+
 ## Features
 
-- 📚 Automatic article scraping from multiple sources
-- 🔍 Filter articles by source
+- 📚 Automatic article aggregation from top PM newsletters
+- 🎨 Clean, modern interface with source-specific color coding
+- 🔍 Filter articles by source with an intuitive sidebar
 - 🔄 Real-time updates with refresh functionality
-- 📱 Responsive design
+- 📱 Responsive design for all devices
 - ⚡ Fast and efficient with server-side rendering
-- 🎨 Modern UI with Tailwind and Shadcn components
+- 🎯 Focus on readability and user experience
 
 ## Tech Stack
 
@@ -40,12 +43,10 @@ npm install
 
 3. Create a `.env.local` file in the root directory with the following variables:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 DATABASE_URL=your_supabase_connection_string
 ```
 
-### Supabase Setup
+### Database Setup
 
 1. Create a new Supabase project at [supabase.com](https://supabase.com)
 
@@ -54,12 +55,7 @@ DATABASE_URL=your_supabase_connection_string
    - Copy the connection string and replace `[YOUR-PASSWORD]` with your database password
    - Add this as your `DATABASE_URL` in `.env.local`
 
-3. Get your API keys:
-   - Go to Project Settings > API
-   - Copy the Project URL as `NEXT_PUBLIC_SUPABASE_URL`
-   - Copy the anon public key as `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-
-4. Run database migrations:
+3. Run database migrations:
 ```bash
 npm run db:push
 ```
@@ -77,26 +73,24 @@ npm run dev
 
 ### Managing Sources
 
-1. Click the settings icon in the top right corner
+1. Click "Manage Sources" in the sidebar
 2. Add new sources with:
    - Name: Display name for the source
-   - Slug: URL-friendly identifier
-   - URL: RSS feed URL
-   - Icon: Choose from available icons
+   - URL: The source's URL
+   - Color: Choose from available colors for visual distinction
 
 ### Refreshing Articles
 
-- Click the refresh button in the top right corner to fetch new articles
+- Click the refresh button in the top right to fetch new articles
 - Articles are automatically sorted by publication date
 - Filter articles by clicking on different sources in the sidebar
 
 ## Database Schema
 
-The app uses the following main tables:
+The app uses the following tables:
 
-- `sources`: Newsletter sources configuration
-- `articles`: Scraped articles with metadata
-- `article_history`: Track article updates and changes
+- `sources`: Newsletter sources with name, slug, and color
+- `articles`: Aggregated articles with metadata and source references
 
 ## Contributing
 

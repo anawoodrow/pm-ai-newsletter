@@ -20,6 +20,24 @@ const AVAILABLE_ICONS = [
   "lightbulb"
 ] as const
 
+const AVAILABLE_COLORS = [
+  'blue',   // For backgrounds like bg-blue-100 dark:bg-blue-900
+  'purple', // bg-purple-100 dark:bg-purple-900
+  'green',  // bg-green-100 dark:bg-green-900
+  'orange', // bg-orange-100 dark:bg-orange-900
+  'pink',   // bg-pink-100 dark:bg-pink-900
+  'yellow', // bg-yellow-100 dark:bg-yellow-900
+  'teal',   // bg-teal-100 dark:bg-teal-900
+  'red',    // bg-red-100 dark:bg-red-900
+  'indigo'  // bg-indigo-100 dark:bg-indigo-900
+] as const
+
+function generateSlug(name: string) {
+  return name.toLowerCase()
+    .replace(/[']/g, '') // Remove apostrophes first
+    .replace(/[^a-z0-9]/g, '') // Then remove all other special characters
+}
+
 export default function AddSourceForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState("")
@@ -32,6 +50,7 @@ export default function AddSourceForm() {
 
     try {
       const randomIcon = AVAILABLE_ICONS[Math.floor(Math.random() * AVAILABLE_ICONS.length)]
+      const randomColor = AVAILABLE_COLORS[Math.floor(Math.random() * AVAILABLE_COLORS.length)]
       
       const response = await fetch("/api/sources", {
         method: "POST",
@@ -42,7 +61,8 @@ export default function AddSourceForm() {
           name,
           url,
           icon: randomIcon,
-          slug: name.toLowerCase().replace(/\s+/g, "")
+          color: randomColor,
+          slug: generateSlug(name)
         }),
       })
 
