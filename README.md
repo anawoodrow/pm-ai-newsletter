@@ -1,6 +1,6 @@
-# PM & AI Newsletter Aggregator
+# PM Newsletter Aggregator
 
-A modern web application that aggregates articles from various Product Management and AI newsletters, providing a centralized hub for staying up-to-date with the latest insights in the field.
+A modern web application that aggregates articles from various Product Management newsletters, providing a centralized hub for staying up-to-date with the latest insights in the field.
 
 ![PM & AI Newsletter Aggregator](screenshot.png)
 
@@ -76,8 +76,7 @@ npm run dev
 1. Click "Manage Sources" in the sidebar
 2. Add new sources with:
    - Name: Display name for the source
-   - URL: The source's URL
-   - Color: Choose from available colors for visual distinction
+   - URL: URL for source's RSS feed
 
 ### Refreshing Articles
 
