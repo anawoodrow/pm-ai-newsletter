@@ -1,70 +1,118 @@
-# PM & AI Newsletter
+# PM & AI Newsletter Aggregator
 
-A minimalistic web app that aggregates articles from top Product Management and AI resources.
+A modern web application that aggregates articles from various Product Management and AI newsletters, providing a centralized hub for staying up-to-date with the latest insights in the field.
 
 ## Features
 
-- Automatic article scraping from popular PM and AI blogs/newsletters
-- Clean, responsive UI with article cards
-- Automatic updates every 6 hours
-- Server-side rendering for optimal performance
-
-## Sources
-
-- [Cutlefish](https://cutlefish.substack.com/)
-- [One Knight in Product](https://oneknightinproduct.substack.com/)
-- [Product Talk](https://www.producttalk.org/blog/)
-- [Mind the Product](https://www.mindtheproduct.com/articles/)
-- [Hils](https://hils.substack.com/)
-- [Product Compass](https://www.productcompass.pm/)
-- [Superhuman AI](https://www.superhuman.ai/)
+- 📚 Automatic article scraping from multiple sources
+- 🔍 Filter articles by source
+- 🔄 Real-time updates with refresh functionality
+- 📱 Responsive design
+- ⚡ Fast and efficient with server-side rendering
+- 🎨 Modern UI with Tailwind and Shadcn components
 
 ## Tech Stack
 
-- Frontend: Next.js, Tailwind CSS, Shadcn UI
-- Backend: Supabase (PostgreSQL), Drizzle ORM
-- Web Scraping: Cheerio
-- Deployment: Vercel (with Cron Jobs)
+- **Frontend**: Next.js 14, Tailwind CSS, Shadcn UI
+- **Backend**: Supabase (PostgreSQL), Drizzle ORM
+- **Deployment**: Vercel
 
-## Development
+## Getting Started
 
-1. Clone the repository
+### Prerequisites
+
+- Node.js 18+ and npm
+- A Supabase account and project
+- Git
+
+### Environment Setup
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd pm-ai-newsletter
+```
+
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. Set up Supabase:
-   - Create a new project at [Supabase](https://supabase.com)
-   - Go to Project Settings > Database to find your database connection string
-   - Go to Project Settings > API to find your project URL and anon key
-   - Copy these values to your environment variables
+3. Create a `.env.local` file in the root directory with the following variables:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+DATABASE_URL=your_supabase_connection_string
+```
 
-4. Set up environment variables:
-   ```bash
-   cp .env.example .env.local
-   ```
-   Then fill in the following variables:
-   - `DATABASE_URL`: Your Supabase PostgreSQL connection string
-   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anon key
+### Supabase Setup
 
-5. Start the development server:
-   ```bash
-   npm run dev
-   ```
+1. Create a new Supabase project at [supabase.com](https://supabase.com)
 
-## Deployment
+2. Get your connection details:
+   - Go to Project Settings > Database
+   - Copy the connection string and replace `[YOUR-PASSWORD]` with your database password
+   - Add this as your `DATABASE_URL` in `.env.local`
 
-1. Push to GitHub
-2. Connect to Vercel
-3. Set up environment variables in Vercel:
-   - Add all variables from `.env.local`
-   - Vercel will automatically set `VERCEL_URL` and `VERCEL_ENV`
-4. Deploy
+3. Get your API keys:
+   - Go to Project Settings > API
+   - Copy the Project URL as `NEXT_PUBLIC_SUPABASE_URL`
+   - Copy the anon public key as `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-The app will automatically scrape new articles every 6 hours using Vercel Cron Jobs.
+4. Run database migrations:
+```bash
+npm run db:push
+```
+
+### Running the App
+
+1. Start the development server:
+```bash
+npm run dev
+```
+
+2. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Usage
+
+### Managing Sources
+
+1. Click the settings icon in the top right corner
+2. Add new sources with:
+   - Name: Display name for the source
+   - Slug: URL-friendly identifier
+   - URL: RSS feed URL
+   - Icon: Choose from available icons
+
+### Refreshing Articles
+
+- Click the refresh button in the top right corner to fetch new articles
+- Articles are automatically sorted by publication date
+- Filter articles by clicking on different sources in the sidebar
+
+## Database Schema
+
+The app uses the following main tables:
+
+- `sources`: Newsletter sources configuration
+- `articles`: Scraped articles with metadata
+- `article_history`: Track article updates and changes
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Database by [Supabase](https://supabase.com/)
+- ORM by [Drizzle](https://orm.drizzle.team/)
