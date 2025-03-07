@@ -6,18 +6,16 @@ This client component provides a user button for the sidebar via Clerk.
 
 "use client"
 
-import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar"
-import { UserButton, useUser } from "@clerk/nextjs"
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 export function NavUser() {
-  const { user } = useUser()
-
   return (
-    <SidebarMenu>
-      <SidebarMenuItem className="flex items-center gap-2 font-medium">
-        <UserButton afterSignOutUrl="/" />
-        {user?.fullName}
-      </SidebarMenuItem>
-    </SidebarMenu>
+    <Button variant="ghost" className="w-full justify-start">
+      <Avatar className="h-5 w-5">
+        <AvatarFallback>U</AvatarFallback>
+      </Avatar>
+      <span className="ml-2">User</span>
+    </Button>
   )
 }

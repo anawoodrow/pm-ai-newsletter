@@ -1,66 +1,70 @@
-# Mckay's App Template
+# PM & AI Newsletter
 
-This is a full-stack app template for courses on [Takeoff](https://JoinTakeoff.com/).
+A minimalistic web app that aggregates articles from top Product Management and AI resources.
 
-## Sponsors
+## Features
 
-If you are interested in sponsoring my repos, please contact me at [ads@takeoffai.org](mailto:ads@takeoffai.org).
+- Automatic article scraping from popular PM and AI blogs/newsletters
+- Clean, responsive UI with article cards
+- Automatic updates every 6 hours
+- Server-side rendering for optimal performance
 
-Or sponsor me directly on [GitHub Sponsors](https://github.com/sponsors/mckaywrigley).
+## Sources
+
+- [Cutlefish](https://cutlefish.substack.com/)
+- [One Knight in Product](https://oneknightinproduct.substack.com/)
+- [Product Talk](https://www.producttalk.org/blog/)
+- [Mind the Product](https://www.mindtheproduct.com/articles/)
+- [Hils](https://hils.substack.com/)
+- [Product Compass](https://www.productcompass.pm/)
+- [Superhuman AI](https://www.superhuman.ai/)
 
 ## Tech Stack
 
-- IDE: [Cursor](https://www.cursor.com/)
-- AI Tools: [V0](https://v0.dev/), [Perplexity](https://www.perplexity.com/)
-- Frontend: [Next.js](https://nextjs.org/docs), [Tailwind](https://tailwindcss.com/docs/guides/nextjs), [Shadcn](https://ui.shadcn.com/docs/installation), [Framer Motion](https://www.framer.com/motion/introduction/)
-- Backend: [PostgreSQL](https://www.postgresql.org/about/), [Supabase](https://supabase.com/), [Drizzle](https://orm.drizzle.team/docs/get-started-postgresql), [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
-- Auth: [Clerk](https://clerk.com/)
-- Payments: [Stripe](https://stripe.com/)
-- Analytics: [PostHog](https://posthog.com/)
+- Frontend: Next.js, Tailwind CSS, Shadcn UI
+- Backend: Supabase (PostgreSQL), Drizzle ORM
+- Web Scraping: Cheerio
+- Deployment: Vercel (with Cron Jobs)
 
-## Prerequisites
-
-You will need accounts for the following services.
-
-They all have free plans that you can use to get started.
-
-- Create a [Cursor](https://www.cursor.com/) account
-- Create a [GitHub](https://github.com/) account
-- Create a [Supabase](https://supabase.com/) account
-- Create a [Clerk](https://clerk.com/) account
-- Create a [Stripe](https://stripe.com/) account
-- Create a [PostHog](https://posthog.com/) account
-- Create a [Vercel](https://vercel.com/) account
-
-You will likely not need paid plans unless you are building a business.
-
-## Environment Variables
-
-```bash
-# DB (Supabase)
-DATABASE_URL=
-
-# Auth (Clerk)
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/login
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/signup
-
-# Payments (Stripe)
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PORTAL_LINK=
-NEXT_PUBLIC_STRIPE_PAYMENT_LINK_YEARLY=
-NEXT_PUBLIC_STRIPE_PAYMENT_LINK_MONTHLY=
-
-# Analytics (PostHog)
-NEXT_PUBLIC_POSTHOG_KEY=
-NEXT_PUBLIC_POSTHOG_HOST=
-```
-
-## Setup
+## Development
 
 1. Clone the repository
-2. Copy `.env.example` to `.env.local` and fill in the environment variables from above
-3. Run `npm install` to install dependencies
-4. Run `npm run dev` to run the app locally
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up Supabase:
+   - Create a new project at [Supabase](https://supabase.com)
+   - Go to Project Settings > Database to find your database connection string
+   - Go to Project Settings > API to find your project URL and anon key
+   - Copy these values to your environment variables
+
+4. Set up environment variables:
+   ```bash
+   cp .env.example .env.local
+   ```
+   Then fill in the following variables:
+   - `DATABASE_URL`: Your Supabase PostgreSQL connection string
+   - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anon key
+
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Deployment
+
+1. Push to GitHub
+2. Connect to Vercel
+3. Set up environment variables in Vercel:
+   - Add all variables from `.env.local`
+   - Vercel will automatically set `VERCEL_URL` and `VERCEL_ENV`
+4. Deploy
+
+The app will automatically scrape new articles every 6 hours using Vercel Cron Jobs.
+
+## License
+
+MIT
