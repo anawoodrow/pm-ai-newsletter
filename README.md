@@ -1,6 +1,6 @@
-# PM & AI Newsletter Aggregator
+# PM Newsletter Aggregator
 
-A modern web application that aggregates articles from various Product Management and AI newsletters, providing a centralized hub for staying up-to-date with the latest insights in the field.
+A modern web application that aggregates articles from various Product Management newsletters, providing a centralized hub for staying up-to-date with the latest insights in the field.
 
 ![PM & AI Newsletter Aggregator](screenshot.png)
 
